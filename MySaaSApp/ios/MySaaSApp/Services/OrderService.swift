@@ -17,4 +17,25 @@ class OrderService {
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
     }
+    
+    func createOrder(_ order: Order) -> AnyPublisher<Order, Error> {
+        // In a real app, this would make an API call to create a new order
+        return Future<Order, Error> { promise in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                promise(.success(order))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func updateOrderStatus(orderId: String, status: Order.OrderStatus) -> AnyPublisher<Order, Error> {
+        // In a real app, this would make an API call to update the order status
+        return Future<Order, Error> { promise in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                let updatedOrder = Order(id: orderId, customerId: "C1", items: [], total: 25.99, status: status, createdAt: Date())
+                promise(.success(updatedOrder))
+            }
+        }
+        .eraseToAnyPublisher()
+    }
 }

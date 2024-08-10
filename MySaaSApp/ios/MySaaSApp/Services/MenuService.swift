@@ -50,4 +50,27 @@ class MenuService {
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
     }
+    
+    func addCategory(name: String) -> AnyPublisher<Category, Error> {
+        // In a real app, this would make an API call to add the category
+        let newCategory = Category(id: UUID().uuidString, name: name)
+        return Just(newCategory)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func updateCategory(id: String, name: String) -> AnyPublisher<Category, Error> {
+        // In a real app, this would make an API call to update the category
+        let updatedCategory = Category(id: id, name: name)
+        return Just(updatedCategory)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteCategory(id: String) -> AnyPublisher<String, Error> {
+        // In a real app, this would make an API call to delete the category
+        return Just(id)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
 }
