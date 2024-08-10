@@ -3,11 +3,7 @@ import SwiftUI
 struct MenuDashboardView: View {
     @StateObject private var viewModel = MenuViewModel()
     @State private var searchText = ""
-    @State private var showingAddItemView = false
-    @State private var selectedItem: MenuItem?
     @State private var selectedCategoryId: String?
-    @State private var itemToDelete: MenuItem?
-    @State private var showingDeleteConfirmation = false
 
     var body: some View {
         VStack {
@@ -31,13 +27,7 @@ struct MenuDashboardView: View {
                 ForEach(filteredCategories) { category in
                     Section(header: Text(category.name)) {
                         ForEach(filteredMenuItems(for: category)) { item in
-                            MenuItemRowView(item: item) {
-                                itemToDelete = item
-                                showingDeleteConfirmation = true
-                            }
-                            .onTapGesture {
-                                selectedItem = item
-                            }
+                            MenuItemRowView(item: item)
                         }
                     }
                 }
@@ -45,32 +35,13 @@ struct MenuDashboardView: View {
             .listStyle(InsetGroupedListStyle())
         }
         .navigationBarTitle("Menu")
-        .navigationBarItems(trailing: addButton)
-        .sheet(isPresented: $showingAddItemView) {
-            AddMenuItemView(viewModel: viewModel)
-        }
-        .sheet(item: $selectedItem) { item in
-            EditMenuItemView(viewModel: viewModel, item: item)
-        }
+        .navigationBarItems(trailing: 
+            NavigationLink(destination: MenuManagementView()) {
+                Text("Manage")
+            }
+        )
         .onAppear {
             viewModel.fetchMenuData()
-        }
-        .confirmationDialog("Are you sure you want to delete this item?",
-                            isPresented: $showingDeleteConfirmation,
-                            titleVisibility: .visible) {
-            Button("Delete", role: .destructive) {
-                if let item = itemToDelete {
-                    viewModel.deleteMenuItem(id: item.id)
-                }
-                itemToDelete = nil
-            }
-        }
-    }
-    
-    private var addButton: some View {
-        Button(action: { showingAddItemView = true }) {
-            Image(systemName: "plus")
-                .accessibilityLabel("Add new menu item")
         }
     }
     
@@ -91,25 +62,18 @@ struct MenuDashboardView: View {
 
 struct MenuItemRowView: View {
     let item: MenuItem
-    let onDelete: () -> Void
 
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(item.name)
-                    .font(.headline)
-                Text(item.description)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .lineLimit(2)
-            }
-            Spacer()
-            Text("$\(item.price, specifier: "%.2f")")
+        VStack(alignment: .leading) {
+            Text(item.name)
                 .font(.headline)
-            Button(action: onDelete) {
-                Image(systemName: "trash")
-                    .foregroundColor(.red)
-            }
+            Text(item.description)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+            Text("$\(item.price, specifier: "%.2f")")
+                .font(.subheadline)
+                .foregroundColor(.blue)
         }
         .padding(.vertical, 8)
     }
