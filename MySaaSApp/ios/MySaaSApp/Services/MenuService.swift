@@ -22,4 +22,22 @@ class MenuService {
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
     }
+    
+    func addMenuItem(name: String, description: String, price: Double, categoryId: String) -> AnyPublisher<MenuItem, Error> {
+        // In a real app, this would make an API call to add the item
+        // For now, we'll just create a new item with a mock ID
+        let newItem = MenuItem(id: UUID().uuidString, name: name, description: description, price: price, categoryId: categoryId)
+        return Just(newItem)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func updateMenuItem(id: String, name: String, description: String, price: Double, categoryId: String) -> AnyPublisher<MenuItem, Error> {
+        // In a real app, this would make an API call to update the item
+        // For now, we'll just return the updated item
+        let updatedItem = MenuItem(id: id, name: name, description: description, price: price, categoryId: categoryId)
+        return Just(updatedItem)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
 }
