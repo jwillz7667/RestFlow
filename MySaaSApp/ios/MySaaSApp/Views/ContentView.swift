@@ -55,6 +55,8 @@ struct MainTabView: View {
 }
 
 struct MoreView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    
     var body: some View {
         NavigationView {
             List {
@@ -70,6 +72,12 @@ struct MoreView: View {
                 NavigationLink(destination: SettingsView()) {
                     Label("Settings", systemImage: "gear")
                 }
+                Button(action: {
+                    authViewModel.logout()
+                }) {
+                    Label("Logout", systemImage: "arrow.right.square")
+                }
+                .foregroundColor(.red)
             }
             .navigationTitle("More")
         }
