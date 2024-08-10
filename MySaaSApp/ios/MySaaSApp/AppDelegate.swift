@@ -1,9 +1,12 @@
 import UIKit
+import SwiftUI
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Setup any global configurations or third-party services
+        setupGlobalConfigurations()
+        setupThirdPartyServices()
         return true
     }
 
@@ -14,6 +17,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
+        // Handle any cleanup when discarding scenes
+    }
+
+    // MARK: - Private Methods
+
+    private func setupGlobalConfigurations() {
+        // Set up any global configurations for the app
+        // For example, setting up a global appearance
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.systemBlue]
+        UINavigationBar.appearance().tintColor = .systemBlue
+    }
+
+    private func setupThirdPartyServices() {
+        // Initialize any third-party services
+        // For example, analytics, crash reporting, etc.
+        // AnalyticsManager.shared.configure()
+        // CrashReporter.shared.start()
     }
 }
