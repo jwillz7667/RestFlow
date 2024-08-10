@@ -1,0 +1,48 @@
+// General
+"ok" = "OK";
+"cancel" = "Cancel";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+
+// Authentication
+"login" = "Login";
+"logout" = "Logout";
+"email" = "Email";
+"password" = "Password";
+"register" = "Register";
+"forgot_password" = "Forgot Password?";
+
+// Menu
+"menu" = "Menu";
+"add_item" = "Add Item";
+"edit_item" = "Edit Item";
+"item_name" = "Item Name";
+"item_description" = "Description";
+"item_price" = "Price";
+"item_category" = "Category";
+
+// Orders
+"orders" = "Orders";
+"new_order" = "New Order";
+"order_details" = "Order Details";
+"order_status" = "Status";
+"order_total" = "Total";
+
+// Inventory
+"inventory" = "Inventory";
+"low_stock" = "Low Stock";
+"add_inventory" = "Add Inventory";
+"edit_inventory" = "Edit Inventory";
+
+// Sales
+"sales" = "Sales";
+"total_sales" = "Total Sales";
+"average_order" = "Average Order";
+"top_selling_items" = "Top Selling Items";
+
+// Settings
+"settings" = "Settings";
+"general_settings" = "General Settings";
+"user_management" = "User Management";
+"integrations" = "Integrations";
