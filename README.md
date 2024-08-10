@@ -13,6 +13,14 @@ RestFlow is a comprehensive SaaS restaurant management system inspired by Revel'
 - Reporting and Analytics
 - User Authentication and Authorization
 
+## Project Structure
+
+The project is divided into three main components:
+
+1. `/backend`: Node.js backend server
+2. `/ios`: iOS client application
+3. `/web`: Web-based admin dashboard
+
 ## Getting Started
 
 ### Prerequisites
@@ -20,6 +28,7 @@ RestFlow is a comprehensive SaaS restaurant management system inspired by Revel'
 - Node.js (v14 or later)
 - MongoDB
 - iOS development environment (Xcode, CocoaPods)
+- Web development environment (Node.js, npm)
 
 ### Installation
 
@@ -28,49 +37,40 @@ RestFlow is a comprehensive SaaS restaurant management system inspired by Revel'
    git clone https://github.com/yourusername/restflow.git
    ```
 
-2. Install backend dependencies:
+2. Set up the backend:
    ```
    cd backend
    npm install
-   ```
-
-3. Set up environment variables:
-   Create a `.env` file in the `backend` directory and add the following:
-   ```
-   NODE_ENV=development
-   PORT=5000
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   ```
-
-4. Start the backend server:
-   ```
+   cp .env.example .env
+   # Edit .env with your configuration
    npm run dev
    ```
 
-5. Install iOS dependencies:
+3. Set up the iOS app:
    ```
    cd ../ios
    pod install
+   # Open the .xcworkspace file in Xcode and run the app
    ```
 
-6. Open the iOS project in Xcode and run the app on a simulator or device.
+4. Set up the web dashboard:
+   ```
+   cd ../web
+   npm install
+   npm run dev
+   ```
 
 ## Running Tests
 
-To run backend tests:
-```
-cd backend
-npm test
-```
-
-To run iOS tests, use Xcode's test navigator.
+- Backend tests: `cd backend && npm test`
+- iOS tests: Run tests through Xcode
+- Web tests: `cd web && npm test`
 
 ## Deployment
 
-For backend deployment instructions, see `backend/scripts/deploy.sh`.
-
-For iOS app deployment, follow standard App Store submission guidelines.
+- Backend: See `backend/scripts/deploy.sh`
+- iOS: Follow standard App Store submission process
+- Web: Deploy to your preferred hosting service (e.g., Vercel, Netlify)
 
 ## Contributing
 
