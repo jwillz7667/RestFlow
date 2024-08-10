@@ -36,7 +36,7 @@ struct MainTabView: View {
                 SalesDashboardView()
             }
             .tabItem {
-                Label("Sales", systemImage: "chart.bar")
+                Label("Sales", systemImage: "chart.bar.xaxis")
             }
             
             NavigationView {
