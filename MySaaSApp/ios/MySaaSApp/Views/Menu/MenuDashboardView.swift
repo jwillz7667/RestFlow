@@ -6,6 +6,8 @@ struct MenuDashboardView: View {
     @State private var showingAddItemView = false
     @State private var selectedItem: MenuItem?
     @State private var selectedCategoryId: String?
+    @State private var itemToDelete: MenuItem?
+    @State private var showingDeleteConfirmation = false
 
     var body: some View {
         VStack {
@@ -29,10 +31,13 @@ struct MenuDashboardView: View {
                 ForEach(filteredCategories) { category in
                     Section(header: Text(category.name)) {
                         ForEach(filteredMenuItems(for: category)) { item in
-                            MenuItemRowView(item: item)
-                                .onTapGesture {
-                                    selectedItem = item
-                                }
+                            MenuItemRowView(item: item) {
+                                itemToDelete = item
+                                showingDeleteConfirmation = true
+                            }
+                            .onTapGesture {
+                                selectedItem = item
+                            }
                         }
                     }
                 }
@@ -49,6 +54,16 @@ struct MenuDashboardView: View {
         }
         .onAppear {
             viewModel.fetchMenuData()
+        }
+        .confirmationDialog("Are you sure you want to delete this item?",
+                            isPresented: $showingDeleteConfirmation,
+                            titleVisibility: .visible) {
+            Button("Delete", role: .destructive) {
+                if let item = itemToDelete {
+                    viewModel.deleteMenuItem(id: item.id)
+                }
+                itemToDelete = nil
+            }
         }
     }
     
@@ -76,6 +91,7 @@ struct MenuDashboardView: View {
 
 struct MenuItemRowView: View {
     let item: MenuItem
+    let onDelete: () -> Void
 
     var body: some View {
         HStack {
@@ -90,6 +106,10 @@ struct MenuItemRowView: View {
             Spacer()
             Text("$\(item.price, specifier: "%.2f")")
                 .font(.headline)
+            Button(action: onDelete) {
+                Image(systemName: "trash")
+                    .foregroundColor(.red)
+            }
         }
         .padding(.vertical, 8)
     }
