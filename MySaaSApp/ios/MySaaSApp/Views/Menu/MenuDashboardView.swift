@@ -5,13 +5,28 @@ struct MenuDashboardView: View {
     @State private var searchText = ""
     @State private var showingAddItemView = false
     @State private var selectedItem: MenuItem?
+    @State private var selectedCategoryId: String?
 
     var body: some View {
         VStack {
             SearchBar(text: $searchText)
             
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    CategoryFilterButton(title: "All", isSelected: selectedCategoryId == nil) {
+                        selectedCategoryId = nil
+                    }
+                    ForEach(viewModel.categories) { category in
+                        CategoryFilterButton(title: category.name, isSelected: selectedCategoryId == category.id) {
+                            selectedCategoryId = category.id
+                        }
+                    }
+                }
+                .padding(.horizontal)
+            }
+            
             List {
-                ForEach(viewModel.categories) { category in
+                ForEach(filteredCategories) { category in
                     Section(header: Text(category.name)) {
                         ForEach(filteredMenuItems(for: category)) { item in
                             MenuItemRowView(item: item)
@@ -44,8 +59,18 @@ struct MenuDashboardView: View {
         }
     }
     
+    private var filteredCategories: [Category] {
+        guard let selectedCategoryId = selectedCategoryId else {
+            return viewModel.categories
+        }
+        return viewModel.categories.filter { $0.id == selectedCategoryId }
+    }
+    
     private func filteredMenuItems(for category: Category) -> [MenuItem] {
-        viewModel.menuItems.filter { $0.categoryId == category.id && (searchText.isEmpty || $0.name.localizedCaseInsensitiveContains(searchText)) }
+        viewModel.menuItems.filter { item in
+            item.categoryId == category.id &&
+            (searchText.isEmpty || item.name.localizedCaseInsensitiveContains(searchText))
+        }
     }
 }
 
@@ -85,5 +110,22 @@ struct SearchBar: View {
             }
         }
         .padding(.horizontal)
+    }
+}
+
+struct CategoryFilterButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(isSelected ? Color.blue : Color.gray.opacity(0.2))
+                .foregroundColor(isSelected ? .white : .primary)
+                .cornerRadius(20)
+        }
     }
 }

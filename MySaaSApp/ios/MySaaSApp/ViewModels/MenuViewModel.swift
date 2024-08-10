@@ -56,4 +56,20 @@ class MenuViewModel: ObservableObject {
             })
             .store(in: &cancellables)
     }
+    
+    func deleteMenuItem(id: String) {
+        MenuService.shared.deleteMenuItem(id: id)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print("Error deleting menu item: \(error)")
+                }
+            }, receiveValue: { [weak self] deletedItemId in
+                self?.menuItems.removeAll { $0.id == deletedItemId }
+            })
+            .store(in: &cancellables)
+    }
 }
